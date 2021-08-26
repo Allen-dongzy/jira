@@ -1,6 +1,12 @@
-export const List = ({ list, users }) => {
+import { Projects, Users } from "./index";
+
+interface ListProps {
+  projects: Projects[];
+  users: Users[];
+}
+export const List = ({ projects, users }: ListProps) => {
   return (
-    <table align="center">
+    <table>
       <thead>
         <tr>
           <th>名称</th>
@@ -8,7 +14,7 @@ export const List = ({ list, users }) => {
         </tr>
       </thead>
       <tbody>
-        {list.map((project) => (
+        {projects.map((project) => (
           <tr key={project.id}>
             <td>{project.name}</td>
             <td>

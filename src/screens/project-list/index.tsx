@@ -6,19 +6,31 @@ import qs from "qs";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
+export interface Projects {
+  id: number;
+  name: string;
+  personId: number;
+  organization: string;
+  created: number;
+}
+
+export interface Users {
+  id: number;
+  name: string;
+}
 export const ProjectListScreen = () => {
   const [params, setParam] = useState({
     name: "",
     personId: "",
   });
   const debounceParams = useDebounce(params);
-  const [list, setList] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(params))}`).then(
       async (res) => {
-        if (res.ok) setList(await res.json());
+        if (res.ok) setProjects(await res.json());
       }
     );
   }, [debounceParams]);
@@ -32,7 +44,7 @@ export const ProjectListScreen = () => {
   return (
     <div>
       <SearchPanel params={params} setParam={setParam} users={users} />
-      <List list={list} users={users} />
+      <List projects={projects} users={users} />
     </div>
   );
 };
