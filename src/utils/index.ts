@@ -20,7 +20,7 @@ export const useMount = (callback: () => void): void => {
 };
 
 // 自定义hook-防抖
-export const useDebounce = (value: unknown, delay = 500): any => {
+export const useDebounce = <T>(value: T, delay = 500): T => {
   // 定义debounceValue，值为value
   const [debounceValue, setDebounceValue] = useState(value);
   //使用useEffect监听value和delay
