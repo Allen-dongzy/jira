@@ -28,11 +28,11 @@ export const ProjectListScreen = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(params))}`).then(
-      async (res) => {
-        if (res.ok) setProjects(await res.json());
-      }
-    );
+    fetch(
+      `${apiUrl}/projects?${qs.stringify(cleanObject(debounceParams))}`
+    ).then(async (res) => {
+      if (res.ok) setProjects(await res.json());
+    });
   }, [debounceParams]);
 
   useMount(() => {
