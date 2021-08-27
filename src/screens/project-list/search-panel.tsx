@@ -1,12 +1,12 @@
-import { Users } from "./index";
+import { User } from './index'
 
 interface SearchPanelProps {
   params: {
-    name: string;
-    personId: string;
-  };
-  setParam: (params: SearchPanelProps["params"]) => void;
-  users: Users[];
+    name: string
+    personId: string
+  }
+  setParam: (params: SearchPanelProps['params']) => void
+  users: User[]
 }
 
 export const SearchPanel = ({ params, setParam, users }: SearchPanelProps) => {
@@ -32,7 +32,7 @@ export const SearchPanel = ({ params, setParam, users }: SearchPanelProps) => {
             })
           }
         >
-          <option value={""}>负责人</option>
+          <option value={''}>负责人</option>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}
@@ -41,5 +41,5 @@ export const SearchPanel = ({ params, setParam, users }: SearchPanelProps) => {
         </select>
       </div>
     </form>
-  );
-};
+  )
+}

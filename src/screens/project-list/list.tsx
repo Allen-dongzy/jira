@@ -1,8 +1,8 @@
-import { Projects, Users } from "./index";
+import { Project, User } from './index'
 
 interface ListProps {
-  projects: Projects[];
-  users: Users[];
+  projects: Project[]
+  users: User[]
 }
 export const List = ({ projects, users }: ListProps) => {
   return (
@@ -19,11 +19,11 @@ export const List = ({ projects, users }: ListProps) => {
             <td>{project.name}</td>
             <td>
               {users.find((user) => user.id === project.personId)?.name ||
-                "未知"}
+                '未知'}
             </td>
           </tr>
         ))}
       </tbody>
     </table>
-  );
-};
+  )
+}

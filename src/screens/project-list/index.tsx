@@ -1,12 +1,12 @@
-import { SearchPanel } from "./search-panel"
-import { List } from "./list"
-import { useEffect, useState } from "react"
-import { cleanObject, useDebounce, useMount } from "../../utils"
-import qs from "qs"
+import { SearchPanel } from './search-panel'
+import { List } from './list'
+import { useEffect, useState } from 'react'
+import { cleanObject, useDebounce, useMount } from '../../utils'
+import qs from 'qs'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-export interface Projects {
+export interface Project {
   id: number
   name: string
   personId: number
@@ -14,15 +14,19 @@ export interface Projects {
   created: number
 }
 
-export interface Users {
+export interface User {
   id: number
   name: string
+  email: string
+  title: string
+  organization: string
+  token: string
 }
 
 export const ProjectListScreen = () => {
   const [params, setParam] = useState({
-    name: "",
-    personId: "",
+    name: '',
+    personId: '',
   })
   const debounceParams = useDebounce(params)
   const [projects, setProjects] = useState([])
