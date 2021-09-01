@@ -2,7 +2,7 @@ import { SearchPanel } from './search-panel'
 import { List } from './list'
 import { useEffect, useState } from 'react'
 import { cleanObject, useDebounce, useMount } from '../../utils'
-import qs from 'qs'
+import { useHttp } from '../../utils/http'
 
 const apiUrl = process.env.REACT_APP_API_URL
 
@@ -31,19 +31,14 @@ export const ProjectListScreen = () => {
   const debounceParams = useDebounce(params)
   const [projects, setProjects] = useState([])
   const [users, setUsers] = useState([])
+  const client = useHttp()
 
   useEffect(() => {
-    fetch(
-      `${apiUrl}/projects?${qs.stringify(cleanObject(debounceParams))}`
-    ).then(async (res) => {
-      if (res.ok) setProjects(await res.json())
-    })
+    client('projects', { data: cleanObject(debounceParams) }).then(setProjects)
   }, [debounceParams])
 
   useMount(() => {
-    fetch(`${apiUrl}/users`).then(async (res) => {
-      if (res.ok) setUsers(await res.json())
-    })
+    client('users').then(setUsers)
   })
 
   return (
