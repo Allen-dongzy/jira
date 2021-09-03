@@ -3,13 +3,13 @@ import { List } from './list'
 import { useEffect, useState } from 'react'
 import { cleanObject, useDebounce, useMount } from '../../utils'
 import { useHttp } from '../../utils/http'
-
-const apiUrl = process.env.REACT_APP_API_URL
+import styled from '@emotion/styled'
 
 export interface Project {
   id: number
   name: string
   personId: number
+  pin: boolean
   organization: string
   created: number
 }
@@ -42,9 +42,14 @@ export const ProjectListScreen = () => {
   })
 
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel params={params} setParam={setParam} users={users} />
       <List projects={projects} users={users} />
-    </div>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  padding: 3.2rem;
+`
