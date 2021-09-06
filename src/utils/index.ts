@@ -1,14 +1,16 @@
 // 判断是否为false
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 export const isFlasy = (value: unknown): boolean =>
   value === 0 ? false : !value
 
+export const isVoid = (value: unknown): boolean =>
+  value === undefined || value === null || value === ''
+
 // 清空对象中无效的属性
-export const cleanObject = (obj: object): object => {
+export const cleanObject = (obj: { [key: string]: unknown }): object => {
   const result = { ...obj }
-  // @ts-ignore
-  Object.keys(result).forEach((key) => isFlasy(obj[key]) && delete result[key])
+  Object.keys(result).forEach((key) => isVoid(obj[key]) && delete result[key])
   return result
 }
 
@@ -16,6 +18,7 @@ export const cleanObject = (obj: object): object => {
 export const useMount = (callback: () => void): void => {
   useEffect(() => {
     callback()
+    //  eslint-disable-next-line
   }, [])
 }
 

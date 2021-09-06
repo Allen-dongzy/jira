@@ -1,19 +1,23 @@
 import { SearchPanel } from './search-panel'
 import { List } from './list'
-import { useEffect, useState } from 'react'
-import { cleanObject, useDebounce, useMount } from '../../utils'
-import { useHttp } from '../../utils/http'
+import { useState } from 'react'
+import { useDebounce } from '../../utils'
 import styled from '@emotion/styled'
+import { Typography } from 'antd'
+import { useProjects } from '../../utils/project'
+import { useUsers } from '../../utils/user'
 
+// projects接口
 export interface Project {
   id: number
   name: string
-  personId: number
+  personId: number | string
   pin: boolean
   organization: string
   created: number
 }
 
+// users接口
 export interface User {
   id: number
   name: string
@@ -24,28 +28,30 @@ export interface User {
 }
 
 export const ProjectListScreen = () => {
+  // 要请求的参数
   const [params, setParam] = useState({
     name: '',
     personId: '',
   })
+  // 要请求的参数-防抖处理
   const debounceParams = useDebounce(params)
-  const [projects, setProjects] = useState([])
-  const [users, setUsers] = useState([])
-  const client = useHttp()
-
-  useEffect(() => {
-    client('projects', { data: cleanObject(debounceParams) }).then(setProjects)
-  }, [debounceParams])
-
-  useMount(() => {
-    client('users').then(setUsers)
-  })
+  // 获取users
+  const { data: users } = useUsers()
+  // 获取projects
+  const { isLoading, error, data: projects } = useProjects(debounceParams)
 
   return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel params={params} setParam={setParam} users={users} />
-      <List projects={projects} users={users} />
+      <SearchPanel params={params} setParam={setParam} users={users || []} />
+      {error ? (
+        <Typography.Text type={'danger'}>{error.message}</Typography.Text>
+      ) : null}
+      <List
+        loading={isLoading}
+        users={users || []}
+        dataSource={projects || []}
+      />
     </Container>
   )
 }

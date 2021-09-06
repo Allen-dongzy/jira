@@ -29,7 +29,8 @@ export const login = (data: AuthForm) => {
     },
     body: JSON.stringify(data),
   }).then(async (res) => {
-    if (res.ok) return handleUserResponse(await res.json())
+    const data = await res.json()
+    if (res.ok) return handleUserResponse(data)
     else return Promise.reject(data)
   })
 }
@@ -43,7 +44,8 @@ export const register = (data: AuthForm) => {
     },
     body: JSON.stringify(data),
   }).then(async (res) => {
-    if (res.ok) return handleUserResponse(await res.json())
+    const data = await res.json()
+    if (res.ok) return handleUserResponse(data)
     else return Promise.reject(data)
   })
 }
